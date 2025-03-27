@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Books List</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<h1>📖 Book Collection</h1>
+
+<form th:action="@{/books}" method="get" class="search-form">
+    <input id="search" type="text" name="keyword" placeholder="🔍 Search by Title..." th:value="${keyword}" class="search-input">
+    <button type="submit" class="search-btn">
+        <i class="fas fa-search"></i> Search
+    </button>
+</form>
+
+
+
+<a th:href="@{/books/add}" class="btn add-btn">➕ Add New Book</a>
+
+<table class="styled-table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Genre</th>
+        <th>Availability</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="book : ${bookPage.content}">
+        <td th:text="${book.id}"></td>
+        <td th:text="${book.title}"></td>
+        <td th:text="${book.author}"></td>
+        <td th:text="${book.genre}"></td>
+        <td>
+                <span th:class="${book.available} ? 'available' : 'checked-out'"
+                      th:text="${book.available} ? '✅ Available' : '❌ Checked Out'"></span>
+        </td>
+        <td>
+            <a th:href="@{/books/edit/{id}(id=${book.id})}" class="action-btn">
+                <i class="fas fa-edit"></i> Edit
+            </a>
+            <a th:href="@{/books/delete/{id}(id=${book.id})}" class="action-btn delete"
+               onclick="return confirm('Are you sure?')">
+                <i class="fas fa-trash-alt"></i> Delete
+            </a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<div class="pagination">
+    <a th:if="${currentPage > 0}" th:href="@{/books(page=${currentPage - 1}, size=5, keyword=${keyword})}">Previous</a>
+
+    <span>Page <span th:text="${currentPage + 1}"></span> of <span th:text="${totalPages}"></span></span>
+
+    <a th:if="${currentPage + 1 < totalPages}" th:href="@{/books(page=${currentPage + 1}, size=5, keyword=${keyword})}">Next</a>
+</div>
+
+
+<button onclick="window.location.href='/'" class="btn exit-btn">🚪 Exit</button>
+</body>
+</html>

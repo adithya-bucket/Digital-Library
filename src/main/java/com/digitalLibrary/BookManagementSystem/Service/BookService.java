@@ -3,8 +3,12 @@ package com.digitalLibrary.BookManagementSystem.Service;
 import com.digitalLibrary.BookManagementSystem.Model.Book;
 import com.digitalLibrary.BookManagementSystem.Repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,8 +23,8 @@ public class BookService {
      *
      * @return List of books.
      */
-    public List<Book> getAllBooks() {
-        return bookRepository.findAll();
+    public Page<Book> getAllBooks(Pageable pageable) {
+        return bookRepository.findAll(pageable);
     }
 
     /**
@@ -52,12 +56,8 @@ public class BookService {
      * @param title The title keyword.
      * @return List of books matching the search criteria.
      */
-    public List<Book> searchBooksByTitle(String title) {
-        List<Book> books = bookRepository.findByTitleContainingIgnoreCase(title);
-        if (books.isEmpty()) {
-            throw new RuntimeException("No books found matching title: " + title);
-        }
-        return books;
+    public Page<Book> searchBooksByTitle(String title, Pageable pageable) {
+        return bookRepository.findByTitleContainingIgnoreCase(title, pageable);
     }
 
 

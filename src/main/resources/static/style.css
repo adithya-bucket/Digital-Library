@@ -1,68 +1,129 @@
-/* General Page Styles */
+/* Global Styling */
 body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-    padding: 20px;
+    font-family: 'Arial', sans-serif;
     background-color: #f4f4f4;
+    text-align: center;
+    margin: 0;
+    padding: 20px;
+}
+
+/* Welcome Page */
+.welcome-page {
+    background: url('/images/image-3.jpg') no-repeat center center/cover;
+       min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
     text-align: center;
 }
 
-h1 {
-    color: #333;
+
+
+/*search form*/
+.search-form{
+margin-bottom: 20px;
 }
 
-/* Form Styling */
-form {
-    margin-bottom: 20px;
-    padding: 15px;
-    background: white;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+#search{
+width:300px;
+height:30px;
+}
+
+.container {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 40px;
+    border-radius: 10px;
+}
+
+/* Buttons */
+.btn {
     display: inline-block;
-}
-
-input, button {
-    margin: 5px;
-    padding: 8px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-}
-
-button {
-    background-color: #28a745;
+    padding: 10px 20px;
+    font-size: 16px;
     color: white;
+    background: #007BFF;
     border: none;
+    border-radius: 5px;
     cursor: pointer;
+    transition: 0.3s;
+    text-decoration: none;
 }
 
-button:hover {
-    background-color: #218838;
+.btn:hover {
+    background: #0056b3;
 }
 
-/* Table Styling */
-table {
-    width: 80%;
-    margin: auto;
+.add-btn {
+    background: #28a745;
+}
+
+.add-btn:hover {
+    background: #218838;
+}
+
+.exit-btn {
+    background: #dc3545;
+}
+
+.exit-btn:hover {
+    background: #c82333;
+}
+
+/* Styled Table */
+.styled-table {
+    width: 90%;
+    margin: 20px auto;
     border-collapse: collapse;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
     background: white;
 }
 
-th, td {
-    padding: 10px;
-    border: 1px solid #ddd;
+.styled-table th, .styled-table td {
+    padding: 12px;
+    border-bottom: 1px solid #ddd;
 }
 
-th {
-    background-color: #007bff;
+.styled-table th {
+    background: #343a40;
     color: white;
 }
 
-a {
-    color: #007bff;
-    text-decoration: none;
-    margin: 5px;
+.styled-table tr:hover {
+    background: #f1f1f1;
 }
 
-a:hover {
-    text-decoration: underline;
+/* Status Colors */
+.available {
+    color: green;
+    font-weight: bold;
+}
+
+.checked-out {
+    color: red;
+    font-weight: bold;
+}
+
+/* Action Buttons */
+.action-btn {
+    padding: 5px 10px;
+    color: white;
+    background: #17a2b8;
+    text-decoration: none;
+    border-radius: 3px;
+    transition: 0.3s;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.action-btn:hover {
+    background: #138496;
+}
+
+.delete {
+    background: #dc3545;
+}
+
+.delete:hover {
+    background: #c82333;
 }

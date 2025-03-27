@@ -1,13 +1,16 @@
-package com.digitalLibrary.BookManagementSystem.Controller;
+package com.digitalLibrary.BookManagementSystem.RestController;
 
 import com.digitalLibrary.BookManagementSystem.Model.Book;
 import com.digitalLibrary.BookManagementSystem.Service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @RestController
 @RequestMapping("api/book")
@@ -16,10 +19,17 @@ public class BookController {
     @Autowired
     private BookService bookService;
 
-    @GetMapping("get")
-    public ResponseEntity<List<Book>> getAllBooks() {
-        return ResponseEntity.ok(bookService.getAllBooks());
+    @GetMapping("/get")
+    public ResponseEntity<Page<Book>> getAllBooks(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
+        Page<Book> bookPage = bookService.getAllBooks(pageable);
+
+        return ResponseEntity.ok(bookPage);
     }
+
 
     @GetMapping("get/{id}")
     public ResponseEntity<?> getBookById(@PathVariable Long id) {
@@ -32,14 +42,17 @@ public class BookController {
     }
 
     @GetMapping("/search")
-    public ResponseEntity<?> searchBooks(@RequestParam String title) {
-        try {
-            List<Book> books = bookService.searchBooksByTitle(title);
-            return ResponseEntity.ok(books);
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
+    public ResponseEntity<Page<Book>> searchBooks(
+            @RequestParam String title,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size) {
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
+        Page<Book> bookPage = bookService.searchBooksByTitle(title, pageable);
+
+        return ResponseEntity.ok(bookPage);
     }
+
 
 
     @PostMapping("add")
