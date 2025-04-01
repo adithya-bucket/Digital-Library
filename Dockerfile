@@ -4,16 +4,18 @@ FROM eclipse-temurin:17-jdk
 # Set working directory
 WORKDIR /app
 
+# Copy Maven wrapper & dependencies first to cache them
+COPY mvnw pom.xml ./
+COPY .mvn .mvn
+RUN chmod +x mvnw && ./mvnw dependency:go-offline
+
 # Copy the entire project
 COPY . .
 
-# Install Maven (if needed)
-RUN apt update && apt install -y maven
+# Build the project (skip tests for faster build)
+RUN ./mvnw clean package -DskipTests
 
-# Build the project (skip tests to speed up deployment)
-RUN mvn clean package -DskipTests
-
-# Expose the default Spring Boot port
+# Expose the application port
 EXPOSE 8080
 
 # Run the application using the built JAR
